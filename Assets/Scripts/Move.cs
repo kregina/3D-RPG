@@ -5,13 +5,15 @@ using UnityEngine.AI;
 
 public class Move : MonoBehaviour
 {
-    [SerializeField] Transform target;
-
     private NavMeshAgent agent;
+    private Animator animator;
+
+    private readonly int FORWARD_SPEED_HASH = Animator.StringToHash("forwardSpeed");
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -20,6 +22,8 @@ public class Move : MonoBehaviour
         {
             MoveToCursor();
         }
+
+        UpdateAnimator();
     }
 
     private void MoveToCursor()
@@ -31,6 +35,14 @@ public class Move : MonoBehaviour
         {
             agent.SetDestination(hit.point);
         }
+    }
+
+    private void UpdateAnimator()
+    {
+        Vector3 velocity = agent.velocity;
+        Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+        float speed = localVelocity.z;
+        animator.SetFloat(FORWARD_SPEED_HASH, speed);
     }
 
 }
