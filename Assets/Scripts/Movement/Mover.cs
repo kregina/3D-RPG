@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Move : MonoBehaviour
+public class Mover : MonoBehaviour
 {
     private NavMeshAgent agent;
     private Animator animator;
@@ -12,30 +12,24 @@ public class Move : MonoBehaviour
 
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            MoveToCursor();
-        }
+        //if (Input.GetMouseButton(0))
+        //{
+        //    MoveToCursor();
+        //}
 
         UpdateAnimator();
     }
 
-    private void MoveToCursor()
+    public void MoveTo(Vector3 destination)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        bool hasHit = Physics.Raycast(ray, out RaycastHit hit);
-
-        if (hasHit)
-        {
-            agent.SetDestination(hit.point);
-        }
-    }
+        agent.SetDestination(destination);
+    }   
 
     private void UpdateAnimator()
     {
@@ -44,5 +38,4 @@ public class Move : MonoBehaviour
         float speed = localVelocity.z;
         animator.SetFloat(FORWARD_SPEED_HASH, speed);
     }
-
 }
