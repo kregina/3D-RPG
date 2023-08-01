@@ -16,7 +16,21 @@ public class Move : MonoBehaviour
 
     private void Update()
     {
-        agent.SetDestination(target.position);
+        if (Input.GetMouseButtonDown(0))
+        {
+            MoveToCursor();
+        }
     }
-    
+
+    private void MoveToCursor()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        bool hasHit = Physics.Raycast(ray, out RaycastHit hit);
+
+        if (hasHit)
+        {
+            agent.SetDestination(hit.point);
+        }
+    }
+
 }
