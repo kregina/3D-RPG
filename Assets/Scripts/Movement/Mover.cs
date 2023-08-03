@@ -3,39 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Mover : MonoBehaviour
+namespace RPG.Movement
 {
-    private NavMeshAgent agent;
-    private Animator animator;
-
-    private readonly int FORWARD_SPEED_HASH = Animator.StringToHash("forwardSpeed");
-
-    private void Awake()
+    public class Mover : MonoBehaviour
     {
-        animator = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
-    }
+        private NavMeshAgent agent;
+        private Animator animator;
 
-    private void Update()
-    {
-        //if (Input.GetMouseButton(0))
-        //{
-        //    MoveToCursor();
-        //}
+        private readonly int FORWARD_SPEED_HASH = Animator.StringToHash("forwardSpeed");
 
-        UpdateAnimator();
-    }
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+            agent = GetComponent<NavMeshAgent>();
+        }
 
-    public void MoveTo(Vector3 destination)
-    {
-        agent.SetDestination(destination);
-    }   
+        private void Update()
+        {
+            UpdateAnimator();
+        }
 
-    private void UpdateAnimator()
-    {
-        Vector3 velocity = agent.velocity;
-        Vector3 localVelocity = transform.InverseTransformDirection(velocity);
-        float speed = localVelocity.z;
-        animator.SetFloat(FORWARD_SPEED_HASH, speed);
+        public void MoveTo(Vector3 destination)
+        {
+            agent.SetDestination(destination);
+        }
+
+        private void UpdateAnimator()
+        {
+            Vector3 velocity = agent.velocity;
+            Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+            float speed = localVelocity.z;
+            animator.SetFloat(FORWARD_SPEED_HASH, speed);
+        }
     }
 }
